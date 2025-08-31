@@ -1,0 +1,65 @@
+09.01 01:08
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Shop {
+  id             String   @id @default(cuid())
+  shopDomain     String   @unique
+  accessToken    String
+  plan           String?
+  installedAt    DateTime @default(now())
+  uninstalledAt  DateTime?
+  settings       Json
+  carriers       CarrierCredential[]
+  labels         OrderLabel[]
+  billings       Billing[]
+}
+
+model CarrierCredential {
+  id       String @id @default(cuid())
+  shop     Shop   @relation(fields: [shopId], references: [id])
+  shopId   String
+  provider String
+  creds    Json
+}
+
+model OrderLabel {
+  id        String   @id @default(cuid())
+  shop      Shop     @relation(fields: [shopId], references: [id])
+  shopId    String
+  orderId   String
+  carrier   String
+  service   String
+  labelUrl  String
+  tracking  String
+  status    String
+  cost      Float?
+  currency  String?
+  createdAt DateTime @default(now())
+}
+
+model JobLog {
+  id        String   @id @default(cuid())
+  shopId    String
+  jobType   String
+  status    String
+  errorJSON Json?
+  createdAt DateTime @default(now())
+}
+
+model Billing {
+  id              String   @id @default(cuid())
+  shop            Shop     @relation(fields: [shopId], references: [id])
+  shopId          String
+  shopifyBillingId String
+  plan            String
+  status          String
+  trialEndsAt     DateTime?
+  currentPeriodEnd DateTime?
+}
