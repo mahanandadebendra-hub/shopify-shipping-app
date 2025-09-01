@@ -1,0 +1,6 @@
+09.01 14:10
+{
+  "semi": true,
+  "singleQuote": false,
+  "trailingComma": "all"
+}
