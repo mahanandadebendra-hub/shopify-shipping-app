@@ -1,4 +1,4 @@
-09.01 01:08
+
 generator client {
   provider = "prisma-client-js"
 }
