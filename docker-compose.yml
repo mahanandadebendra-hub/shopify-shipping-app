@@ -1,4 +1,4 @@
-09.01 10:33
+
 version: "3.9"
 services:
   db:
